@@ -34,6 +34,9 @@ public class UserController {
 
     @GetMapping("/{id}")
     public Mono<ResponseEntity<UserResponse>> getById(@PathVariable String id) {
+        if (id == null) {
+            return Mono.just(ResponseEntity.notFound().build());
+        }
         return service.findById(id)
                 .map(mapper::userToResponse)
                 .map(ResponseEntity::ok)
@@ -51,6 +54,9 @@ public class UserController {
 
     @PutMapping("/{id}")
     public Mono<ResponseEntity<UserResponse>> updateUser(@PathVariable String id, @RequestBody User user) {
+        if (id == null) {
+            return Mono.just(ResponseEntity.notFound().build());
+        }
         return service.update(id, user)
                 .map(mapper::userToResponse)
                 .map(ResponseEntity::ok)
@@ -59,6 +65,9 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public Mono<ResponseEntity<Void>> deleteUser(@PathVariable String id) {
+        if (id == null) {
+            return Mono.just(ResponseEntity.notFound().build());
+        }
         return service.deleteById(id).then(Mono.just(ResponseEntity.noContent().build()));
     }
 

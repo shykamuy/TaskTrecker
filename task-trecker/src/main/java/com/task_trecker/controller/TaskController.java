@@ -56,6 +56,9 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public Mono<ResponseEntity<TaskResponse>> getById(@PathVariable String id) {
+        if (id == null) {
+            return Mono.just(ResponseEntity.notFound().build());
+        }
         var monoTask = service.findById(id)
                 .zipWhen(task -> userService.findById(task.getAuthorId()))
                 .zipWhen(tuple -> userService.findById(tuple.getT1().getAssigneeId()))
@@ -87,6 +90,9 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public Mono<ResponseEntity<TaskResponseSmall>> updateTask(@PathVariable String id, @RequestBody Task task) {
+        if (id == null) {
+            return Mono.just(ResponseEntity.notFound().build());
+        }
         return service.update(id, task)
                 .map(taskSmallMapper::taskToSmallResponse)
                 .map(ResponseEntity::ok)
@@ -95,6 +101,9 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     public Mono<ResponseEntity<Void>> deleteUser(@PathVariable String id) {
+        if (id == null) {
+            return Mono.just(ResponseEntity.notFound().build());
+        }
         return service.deleteById(id).then(Mono.just(ResponseEntity.noContent().build()));
     }
 }
