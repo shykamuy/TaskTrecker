@@ -24,6 +24,7 @@ public class TaskService {
 
     private final TaskRepository repository;
 
+    private final UserService userService;
     private final UserRepository userRepository;
 
     public Flux<Task> findAll() {
@@ -31,7 +32,6 @@ public class TaskService {
     }
 
     public Mono<Task> findById(String id) {
-
         return repository.findById(id);
     }
 

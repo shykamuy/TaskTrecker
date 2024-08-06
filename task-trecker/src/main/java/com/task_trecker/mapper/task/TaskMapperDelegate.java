@@ -29,7 +29,7 @@ public abstract class TaskMapperDelegate implements TaskMapper {
                 task.getStatus().toString(),
                 task.getAuthor(),
                 task.getAssignee(),
-                task.getObserverIds()
+                task.getObservers()
         );
         return response;
     }

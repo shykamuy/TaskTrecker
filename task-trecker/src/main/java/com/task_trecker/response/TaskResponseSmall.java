@@ -1,13 +1,10 @@
 package com.task_trecker.response;
 
-import com.task_trecker.model.TaskStatus;
 import com.task_trecker.model.entitiy.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import reactor.core.publisher.Mono;
-
 
 import java.time.Instant;
 import java.util.Set;
@@ -16,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
-public class TaskResponse {
+public class TaskResponseSmall {
 
     private String id;
 
@@ -30,10 +27,9 @@ public class TaskResponse {
 
     private String status;
 
-    private User author;
+    private String authorId;
 
-    private User assignee;
+    private String assigneeId;
 
-    private Set<User> observers;
-
+    private Set<String> observerIds;
 }
