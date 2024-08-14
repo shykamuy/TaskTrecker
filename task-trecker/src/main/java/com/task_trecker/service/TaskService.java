@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 public class TaskService {
 
     private final TaskRepository repository;
-
     private final UserService userService;
     private final UserRepository userRepository;
 

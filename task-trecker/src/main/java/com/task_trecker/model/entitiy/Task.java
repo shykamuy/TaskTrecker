@@ -2,6 +2,7 @@ package com.task_trecker.model.entitiy;
 
 import com.task_trecker.model.TaskStatus;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -2,3 +2,9 @@ spring:
   data:
     mongodb:
       uri: mongodb://root:root@localhost:27017/appdatabase?authSource=admin
+
+app:
+  security:
+    type: db
+
+#  docker exec -it 0b7caf552dc4 mongosh --username root --password root --authenticationDatabase admin
