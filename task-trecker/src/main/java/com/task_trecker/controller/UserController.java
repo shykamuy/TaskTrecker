@@ -6,6 +6,9 @@ import com.task_trecker.response.UserResponse;
 import com.task_trecker.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,8 +27,11 @@ public class UserController {
 
     private final UserService service;
 
+    private final PasswordEncoder passwordEncoder;
+
     private final UserMapper mapper;
 
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_MANAGER')")
     @GetMapping
     public Flux<UserResponse> getAllUsers() {
         return service.findAll()
@@ -33,6 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_MANAGER')")
     public Mono<ResponseEntity<UserResponse>> getById(@PathVariable String id) {
         if (id == null) {
             return Mono.just(ResponseEntity.notFound().build());
@@ -46,6 +53,7 @@ public class UserController {
 
     @PostMapping
     public Mono<ResponseEntity<UserResponse>> createUser(@RequestBody User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return service.save(user)
                 .map(mapper::userToResponse)
                 .map(ResponseEntity::ok)
@@ -53,6 +61,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_MANAGER')")
     public Mono<ResponseEntity<UserResponse>> updateUser(@PathVariable String id, @RequestBody User user) {
         if (id == null) {
             return Mono.just(ResponseEntity.notFound().build());
@@ -64,6 +73,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_MANAGER')")
     public Mono<ResponseEntity<Void>> deleteUser(@PathVariable String id) {
         if (id == null) {
             return Mono.just(ResponseEntity.notFound().build());

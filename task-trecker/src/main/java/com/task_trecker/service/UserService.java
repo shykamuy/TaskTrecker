@@ -24,8 +24,13 @@ public class UserService {
         return repository.findById(id);
     }
 
+    public Mono<User> findByUsername(String username) {
+        return repository.findByUsername(username);
+    }
+
     public Mono<User> save(User user) {
         user.setId(UUID.randomUUID().toString());
+        System.out.println(user);
         return repository.save(user);
     }
 

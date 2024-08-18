@@ -10,6 +10,7 @@ import com.task_trecker.service.TaskService;
 import com.task_trecker.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +40,7 @@ public class TaskController {
     private final TaskSmallMapper taskSmallMapper;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_MANAGER')")
     public Flux<TaskResponse> getAllTasks() {
         return service.findAll()
                 .flatMap(task -> Mono.just(task)
@@ -55,6 +57,7 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_MANAGER')")
     public Mono<ResponseEntity<TaskResponse>> getById(@PathVariable String id) {
         if (id == null) {
             return Mono.just(ResponseEntity.notFound().build());
@@ -82,6 +85,7 @@ public class TaskController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     public Mono<ResponseEntity<TaskResponseSmall>> createTask(@RequestBody Task task) {
         return service.save(task)
                 .map(taskSmallMapper::taskToSmallResponse)
@@ -89,6 +93,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     public Mono<ResponseEntity<TaskResponseSmall>> updateTask(@PathVariable String id, @RequestBody Task task) {
         if (id == null) {
             return Mono.just(ResponseEntity.notFound().build());
@@ -100,6 +105,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     public Mono<ResponseEntity<Void>> deleteUser(@PathVariable String id) {
         if (id == null) {
             return Mono.just(ResponseEntity.notFound().build());
