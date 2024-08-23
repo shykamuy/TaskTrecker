@@ -62,6 +62,9 @@ public class TaskService {
             if (!task.getObserverIds().isEmpty()) {
                 taskForUpdate.setObserverIds(task.getObserverIds());
             }
+            if (!task.getObservers().isEmpty()) {
+                taskForUpdate.setObservers(task.getObservers());
+            }
             taskForUpdate.setUpdatedAt(Instant.now());
             return repository.save(taskForUpdate);
         });

@@ -47,6 +47,7 @@ public class SecurityConfiguration {
         return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange((auth) -> auth
                         .pathMatchers("/api/v1/users/**").permitAll()
+                        .pathMatchers("/api/v1/tasks/**").permitAll()
                         .anyExchange().authenticated())
                 .httpBasic(Customizer.withDefaults());
     }

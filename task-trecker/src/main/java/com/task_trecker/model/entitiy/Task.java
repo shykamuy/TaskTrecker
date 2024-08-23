@@ -12,6 +12,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -39,7 +40,7 @@ public class Task {
 
     private String assigneeId;
 
-    private Set<String> observerIds;
+    private Set<String> observerIds = new HashSet<>();
 
     @ReadOnlyProperty
     private User author;
@@ -48,7 +49,7 @@ public class Task {
     private User assignee;
 
     @ReadOnlyProperty
-    private Set<User> observers;
+    private Set<User> observers = new HashSet<>();
 
 
 }
